@@ -3,7 +3,7 @@ import MapView, {Marker} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import Permissions from 'react-native-permissions';
 import Axios from 'axios';
-import {StatusBar, StyleSheet, Dimensions, Animated} from 'react-native';
+import {StatusBar, StyleSheet, Dimensions} from 'react-native';
 import {
   Container,
   ScrollContainer,
@@ -105,7 +105,7 @@ export default props => {
           ))}
         </MapView>
         <ScrollContainer
-          onMomentumScrollEnd={e => {
+          onMomentumScrollEnd={async e => {
             const place =
               e.nativeEvent.contentOffset.x > 0
                 ? Math.round(
@@ -114,20 +114,7 @@ export default props => {
                   )
                 : 0;
 
-            const {
-              geometry: {
-                location: {lat, lng},
-              },
-              mark,
-            } = gyms[place];
-
-            mapViewRef.animateToCoordinate(
-              {
-                lat,
-                lng,
-              },
-              500,
-            );
+            const {mark} = gyms[place];
 
             setTimeout(() => {
               mark.showCallout();
